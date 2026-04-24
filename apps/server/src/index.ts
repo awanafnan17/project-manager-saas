@@ -10,14 +10,20 @@ const server = http.createServer(app);
 // Initialize Socket.IO
 initSocketServer(server);
 
-server.listen(PORT, () => {
-  console.log(`\n🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📡 Socket.IO ready`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}\n`);
-});
+// For local development — Vercel handles its own listening
+if (!process.env.VERCEL) {
+  server.listen(PORT, () => {
+    console.log(`\n🚀 Server running on http://localhost:${PORT}`);
+    console.log(`📡 Socket.IO ready`);
+    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}\n`);
+  });
+}
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
   console.log('SIGTERM received. Shutting down gracefully...');
   server.close(() => process.exit(0));
 });
+
+// Export for Vercel serverless
+export default app;
