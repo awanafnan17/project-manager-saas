@@ -49,3 +49,27 @@ tmp/
 
 # Docker
 docker-data/
+# Node modules
+node_modules/
+dist/
+build/
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Large files (if any appear)
+*.apk
+*.ipa
+*.gradle/
