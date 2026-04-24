@@ -13,7 +13,11 @@ export const authApi = {
     password: string;
   }) => api.post<LoginResponse>('/auth/register', data),
 
-  logout: () => api.post('/auth/logout'),
+  logout: () => {
+    const refreshToken = localStorage.getItem('refresh_token');
+    return api.post('/auth/logout', { refreshToken });
+  },
 
-  refresh: () => api.post('/auth/refresh'),
+  refresh: (refreshToken: string) =>
+    api.post('/auth/refresh', { refreshToken }),
 };
