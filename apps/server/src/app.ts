@@ -13,6 +13,9 @@ import { requireRole } from './middleware/rbac.middleware';
 
 const app = express();
 
+// ─── Trust proxy (required for Vercel / reverse proxy) ────────────
+app.set('trust proxy', 1);
+
 // ─── Global Middleware ────────────────────────────────────────────
 app.use(helmet());
 
@@ -49,7 +52,7 @@ const limiter = rateLimit({
   legacyHeaders: false,
   message: { error: 'Too many requests, please try again later.' },
 });
-app.use('/api', limiter);
+//app.use('/api', limiter);
 
 // ─── Health Check ─────────────────────────────────────────────────
 app.get('/health', (_req, res) => {
