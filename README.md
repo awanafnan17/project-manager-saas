@@ -362,4 +362,4 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for step-by-step instructions.
 
 MIT License — Built for the YNC Pakistan Technical Assessment
 
-**Author:** Afnan Awan
+**Author:** Afnan Mehmood Awan
