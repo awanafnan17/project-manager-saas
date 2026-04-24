@@ -1,0 +1,144 @@
+### ═══════════════════════════════════════════════════════════════
+### Project Manager — Auth API Test Suite
+### ═══════════════════════════════════════════════════════════════
+### Usage: Install "REST Client" extension in VS Code, then
+### click "Send Request" above each request block.
+###
+### Run tests in order: Register → Login → Protected → Refresh → Logout
+### ═══════════════════════════════════════════════════════════════
+
+@baseUrl = http://localhost:3000/api/v1
+@contentType = application/json
+
+
+### ─── 1. Health Check ─────────────────────────────────────────
+GET http://localhost:3000/health
+
+
+### ─── 2. Register a new organization + admin user ─────────────
+# @name registerRequest
+POST {{baseUrl}}/auth/register
+Content-Type: {{contentType}}
+
+{
+  "organizationName": "Acme Corp",
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john@acme.com",
+  "password": "SecurePass123"
+}
+
+
+### ─── 3. Register — Validation Error (weak password) ──────────
+POST {{baseUrl}}/auth/register
+Content-Type: {{contentType}}
+
+{
+  "organizationName": "Another Corp",
+  "firstName": "Jane",
+  "lastName": "Doe",
+  "email": "jane@another.com",
+  "password": "weak"
+}
+
+
+### ─── 4. Login ────────────────────────────────────────────────
+# @name loginRequest
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "john@acme.com",
+  "password": "SecurePass123"
+}
+
+
+### ─── 5. Login — Wrong password ───────────────────────────────
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "john@acme.com",
+  "password": "WrongPassword123"
+}
+
+
+### ─── 6. Access Protected Route ───────────────────────────────
+# Copy the accessToken from the login response and paste below
+@accessToken = {{loginRequest.response.body.data.accessToken}}
+
+GET {{baseUrl}}/test-protected
+Authorization: Bearer {{accessToken}}
+
+
+### ─── 7. Access Admin Route ───────────────────────────────────
+GET {{baseUrl}}/test-admin
+Authorization: Bearer {{accessToken}}
+
+
+### ─── 8. Protected Route — No Token (should fail 401) ─────────
+GET {{baseUrl}}/test-protected
+
+
+### ─── 9. Refresh Token (via body) ─────────────────────────────
+# In production the cookie is sent automatically. For testing,
+# copy the refreshToken from login response:
+POST {{baseUrl}}/auth/refresh
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "PASTE_REFRESH_TOKEN_HERE"
+}
+
+
+### ─── 10. Forgot Password ────────────────────────────────────
+POST {{baseUrl}}/auth/forgot-password
+Content-Type: {{contentType}}
+
+{
+  "email": "john@acme.com"
+}
+
+
+### ─── 11. Forgot Password — Non-existent email ──────────────
+# Should return same success message (no email enumeration)
+POST {{baseUrl}}/auth/forgot-password
+Content-Type: {{contentType}}
+
+{
+  "email": "ghost@nowhere.com"
+}
+
+
+### ─── 12. Reset Password ────────────────────────────────────
+# Copy the token from server console log output
+POST {{baseUrl}}/auth/reset-password
+Content-Type: {{contentType}}
+
+{
+  "token": "PASTE_RESET_TOKEN_FROM_CONSOLE",
+  "newPassword": "NewSecurePass456"
+}
+
+
+### ─── 13. Login with new password ────────────────────────────
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "john@acme.com",
+  "password": "NewSecurePass456"
+}
+
+
+### ─── 14. Logout ──────────────────────────────────────────────
+POST {{baseUrl}}/auth/logout
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "PASTE_REFRESH_TOKEN_HERE"
+}
+
+
+### ─── 15. 404 — Unknown route ─────────────────────────────────
+GET {{baseUrl}}/nonexistent

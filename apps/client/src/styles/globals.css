@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base Resets ─────────────────────────────────── */
+@layer base {
+  body {
+    @apply bg-gray-950 text-gray-100 font-sans;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-900;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-700 rounded-full;
+  }
+}
+
+/* ─── Reusable Component Classes ─────────────────── */
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl;
+  }
+
+  .btn-primary {
+    @apply bg-brand-600 hover:bg-brand-500 text-white font-medium
+           px-4 py-2 rounded-lg transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-brand-500/50;
+  }
+
+  .btn-secondary {
+    @apply bg-white/10 hover:bg-white/20 text-gray-200 font-medium
+           px-4 py-2 rounded-lg transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-white/20;
+  }
+
+  .input-field {
+    @apply bg-white/5 border border-white/10 rounded-lg px-3 py-2
+           text-gray-100 placeholder:text-gray-500
+           focus:border-brand-500 focus:ring-1 focus:ring-brand-500/50
+           transition-colors duration-200;
+  }
+}
+
+/* ─── Animations ──────────────────────────────────── */
+@keyframes animate-in {
+  from { opacity: 0; transform: scale(0.95) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.animate-in {
+  animation: animate-in 0.2s ease-out;
+}

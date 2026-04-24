@@ -1,0 +1,29 @@
+{
+  "name": "project-manager",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-stack Project Management SaaS — multi-tenant, real-time, role-based",
+  "workspaces": [
+    "apps/server",
+    "apps/client"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=apps/server & npm run dev --workspace=apps/client",
+    "dev:server": "npm run dev --workspace=apps/server",
+    "dev:client": "npm run dev --workspace=apps/client",
+    "build": "npm run build --workspaces",
+    "build:server": "npm run build --workspace=apps/server",
+    "build:client": "npm run build --workspace=apps/client",
+    "lint": "npm run lint --workspaces --if-present",
+    "db:migrate": "npm run db:migrate --workspace=apps/server",
+    "db:seed": "npm run db:seed --workspace=apps/server",
+    "db:studio": "npm run db:studio --workspace=apps/server",
+    "clean": "rimraf apps/*/node_modules apps/*/dist node_modules"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "keywords": ["project-management", "saas", "multi-tenant", "typescript"],
+  "license": "MIT"
+}
