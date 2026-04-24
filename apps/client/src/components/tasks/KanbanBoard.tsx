@@ -11,7 +11,7 @@ interface Props {
   onSelectTask: (task: Task) => void;
 }
 
-export function KanbanBoard({ members, onCreateTask, onSelectTask }: Props) {
+export function KanbanBoard({ members: _members, onCreateTask, onSelectTask }: Props) {
   const tasks = useTaskStore((s) => s.tasks);
   const updateTaskStatus = useTaskStore((s) => s.updateTaskStatus);
 

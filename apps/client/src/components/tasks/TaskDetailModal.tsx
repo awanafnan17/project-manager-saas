@@ -1,7 +1,7 @@
 import { Badge } from '../ui/Badge';
 import { Button } from '../ui/Button';
 import { Modal } from '../ui/Modal';
-import { formatDate, getInitials } from '../../lib/utils';
+import { formatDate } from '../../lib/utils';
 import { useTaskStore } from '../../stores/taskStore';
 import { KANBAN_COLUMNS } from '../../lib/utils';
 import type { Task, ProjectMember, TaskStatus } from '../../types';

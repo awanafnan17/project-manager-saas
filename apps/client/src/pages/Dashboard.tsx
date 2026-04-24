@@ -14,7 +14,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchProjects({ limit: 5 });
+    fetchProjects();
   }, []);
 
   const totalTasks = projects.reduce((sum, p) => sum + (p._count?.tasks || 0), 0);

@@ -1,17 +1,17 @@
-import { type ClassValue, clsx } from 'clsx';
-
-/** Merge Tailwind class names safely */
-export function cn(...inputs: (string | undefined | null | false)[]) {
-  return inputs.filter(Boolean).join(' ');
+/** Merge class names safely (replaces clsx dependency) */
+export function cn(...classes: (string | undefined | false | null)[]): string {
+  return classes.filter(Boolean).join(' ');
 }
 
 /** Get user initials from first and last name */
 export function getInitials(firstName?: string, lastName?: string): string {
-  return `${(firstName || '')[0] || ''}${(lastName || '')[0] || ''}`.toUpperCase();
+  const f = firstName?.[0] || '';
+  const l = lastName?.[0] || '';
+  return (f + l).toUpperCase() || '?';
 }
 
 /** Format a date string to a readable format */
-export function formatDate(date: string | null | undefined): string {
+export function formatDate(date: string | Date | null | undefined): string {
   if (!date) return '—';
   return new Date(date).toLocaleDateString('en-US', {
     month: 'short',
