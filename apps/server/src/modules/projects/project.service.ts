@@ -105,7 +105,7 @@ class ProjectService {
     }
 
     // Check membership
-    const isMember = project.ownerId === userId || project.members.some((m) => m.userId === userId);
+    const isMember = project.ownerId === userId || project.members.some((m: any) => m.userId === userId);
     if (!isMember) {
       throw new AppError('You do not have access to this project', 403);
     }
@@ -119,14 +119,14 @@ class ProjectService {
 
     return {
       ...project,
-      taskStats: taskStats.map((s) => ({ status: s.status, count: s._count.status })),
+      taskStats: taskStats.map((s: any) => ({ status: s.status, count: s._count.status })),
     };
   }
 
   // ── Create Project ────────────────────────────────────────────
 
   async createProject(data: CreateProjectInput, tenantId: string, ownerId: string) {
-    const project = await prisma.$transaction(async (tx) => {
+    const project = await prisma.$transaction(async (tx: any) => {
       // Create the project
       const newProject = await tx.project.create({
         data: {

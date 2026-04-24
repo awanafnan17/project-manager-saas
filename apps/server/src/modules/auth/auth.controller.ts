@@ -52,16 +52,17 @@ async function register(req: Request, res: Response, next: NextFunction): Promis
     // 2. Immediately log in to issue tokens
     const loginResult = await authService.login(validatedData.email, validatedData.password);
 
-    // 3. Set refresh token cookie
+    // 3. Set refresh token cookie (for cookie-based clients)
     setRefreshTokenCookie(res, loginResult.refreshToken);
 
-    // 4. Respond
+    // 4. Respond (include refreshToken in body for cross-origin clients)
     res.status(201).json({
       success: true,
       data: {
         user: loginResult.user,
         tenant,
         accessToken: loginResult.accessToken,
+        refreshToken: loginResult.refreshToken,
       },
       message: 'Registration successful',
     });
@@ -82,15 +83,17 @@ async function login(req: Request, res: Response, next: NextFunction): Promise<v
 
     const result = await authService.login(email, password);
 
-    // Set refresh token cookie
+    // Set refresh token cookie (for cookie-based clients)
     setRefreshTokenCookie(res, result.refreshToken);
 
+    // Include refreshToken in body for cross-origin clients (Vercel)
     res.status(200).json({
       success: true,
       data: {
         user: result.user,
         tenant: result.tenant,
         accessToken: result.accessToken,
+        refreshToken: result.refreshToken,
       },
       message: 'Login successful',
     });
